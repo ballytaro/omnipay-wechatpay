@@ -1,0 +1,32 @@
+{
+    "name": "ccob/omnipay-wechatpay",
+    "type": "library",
+    "description": "Wechatpay gateway for Omnipay payment processing library",
+    "keywords": [
+        "wechat",
+        "wechatpay",
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment",
+        "purchase"
+    ],
+    "homepage": "https://github.com/Ccob-x/omnipay-wechatpay",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cobb",
+            "email": "yuan.sysu@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { 
+            "Omnipay\\WechatPay\\" : "src/" 
+        }
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "omnipay/common": "~2.0"
+    }
+}
