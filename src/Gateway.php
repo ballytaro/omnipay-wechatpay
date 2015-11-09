@@ -7,11 +7,11 @@ use Omnipay\Common\AbstractGateway;
 /**
  * WechatPay Base Gateway Class
  */
-abstract class BaseAbstractGateway extends AbstractGateway {
+class Gateway extends AbstractGateway {
 
     public function getName(){
 
-        return $this->trade_type;
+        return $this->getTradeType();
     }
 
     public function getDefaultParameters(){
@@ -209,7 +209,7 @@ abstract class BaseAbstractGateway extends AbstractGateway {
 
     public function getOpenId(){
 
-        return $this->getParameter( 'openid', $value );
+        return $this->getParameter( 'openid' );
     }
     
     /**
@@ -219,8 +219,6 @@ abstract class BaseAbstractGateway extends AbstractGateway {
      * @return  RequestInterface    
      */
     public function createUnifiedOrder( array $parameters = array() ){
-
-        $this->setTradeType( $this->trade_type );
 
         return $this->createRequest( '\Omnipay\WechatPay\Message\UnifiedOrderRequest', $parameters );
     }

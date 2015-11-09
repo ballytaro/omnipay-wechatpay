@@ -19,10 +19,18 @@ class UnifiedOrderRequest extends BaseAbstractRequest{
             'trade_type'
         );
 
+        $trade_type = $this->getTradeType();
+
         // 交易类型为JSAPI时，openid参数必须
-        if ( $this->getTradeType() == 'JSAPI' ){
+        if ( $trade_type == 'JSAPI' ){
 
             $this->validate( 'openid' );
+        }
+
+        // 交易类型为NATIVE时，product_id参数必须
+        if ( $trade_type == 'NATIVE' ){
+
+            $this->validate( 'product_id' );
         }
     }
 
