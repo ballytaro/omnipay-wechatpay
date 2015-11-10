@@ -36,11 +36,6 @@ class QueryOrderResponse extends BaseAbstractResponse{
         return $this->getParameter( 'out_trade_no' );
     }
 
-    public function setAttach( $value ){
-
-        return $this->setParameter( 'attach', $value );
-    }
-
     public function getAttach(){
 
         return $this->getParameter( 'attach' );

@@ -7,26 +7,35 @@ use \Omnipay\Common\Message\AbstractResponse;
 abstract class BaseAbstractResponse extends AbstractResponse{
 
     use \Omnipay\WechatPay\Traits\SignatureTrait;
-    use \Omnipay\WechatPay\Traits\XMLTrait;
+
+    public function initialize(){
+
+        parent::initialize();
+        
+        $this->is_signature_matched = $this->getParamsSignature( $this->getData() ) == $ths->getSign();
+        $this->is_response_successful = $this->getReturnCode() == 'SUCCESS';
+        $this->is_result_successful = $this->is_signature_matched && $this->is_response_successful && 
+                                      $this->getResultCode() == 'SUCCESS';
+    }
 
     public function getParameter( $key ){
 
         return array_key_exists( $key, $this->data ) ? $this->data[$key] : null;
     }
 
-    public function isSignMatched(){
+    public function isSignatureMatched(){
 
-        return $this->getParamsSignature( $this->getData() ) == $this->getSign();
+        return $this->is_signature_matched;
     }
 
     public function isResponseSuccessful(){
 
-        return $this->getReturnCode() == 'SUCCESS';
+        return $this->is_response_successful;
     }
 
     public function isResultSuccessful(){
 
-        return $this->isResponseSuccessful() && $this->isSignMatch() && $this->getResultCode() == 'SUCCESS';
+        return $this->is_result_successful;
     }
 
     public function getReturnCode(){

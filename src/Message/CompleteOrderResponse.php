@@ -4,13 +4,15 @@ namespace Omnipay\WechatPay\Message;
 
 class CompleteOrderResponse extends BaseAbstractResponse{
 
-    public function getResponseMessage(){
+    use \Omnipay\WechatPay\Traits\XMLTrait;
+
+    public function getResponseText(){
         
         $response_content = [
-            'return_code' => $this->isPaymentSuccessful() ? 'SUCCESS' : 'FAIL'
+            'return_code' => $this->isResultSuccessful() ? 'SUCCESS' : 'FAIL'
         ];
 
-        return $this->convert
+        return $this->convertArrayToXml( $response_content );
     }
 
     public function isSubscribe(){

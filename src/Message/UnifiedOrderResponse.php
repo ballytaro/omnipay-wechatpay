@@ -2,6 +2,8 @@
 
 namespace Omnipay\WechatPay\Message;
 
+use \Omnipay\Common\Exception\InvalidResponseException;
+
 class UnifiedOrderResponse extends BaseAbstractResponse{
 
     public function getDeviceInfo(){
@@ -49,7 +51,12 @@ class UnifiedOrderResponse extends BaseAbstractResponse{
         return $this->getParameter( 'code_url' );
     }
 
-    public function createWebPayParams(){
+    public function createWebPaymentPackage(){
+       
+        if ( !$this->is_result_successful ){
+            
+            throw new InvalidResponseException( 'Could not create web payment package from invalid response.' ); 
+        }
         
         $params = [
             'appId' => $this->getAppId(),
