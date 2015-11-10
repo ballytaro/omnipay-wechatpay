@@ -27,7 +27,7 @@ class Gateway extends AbstractGateway {
         return $this->setParameter( 'appid', $value );
     }
 
-    public function getAppId( ){
+    public function getAppId(){
 
         return $this->getParameter( 'appid' );
     }
@@ -37,7 +37,7 @@ class Gateway extends AbstractGateway {
         return $this->setParameter( 'mch_id', $value );
     }
 
-    public function getMchId( ){
+    public function getMchId(){
 
         return $this->getParameter( 'mch_id' );
     }
@@ -57,7 +57,7 @@ class Gateway extends AbstractGateway {
         return $this->setParameter( 'body', $value );
     }
 
-    public function getBody( ){
+    public function getBody(){
 
         return $this->getParameter( 'body' );
     }
@@ -275,7 +275,7 @@ class Gateway extends AbstractGateway {
      */
     public function queryRefund( array $parameters = array() ){
 
-        return $this->createRequest( '\Omnipay\WechatPay\Message\QeuryRefundRequest', $parameters );
+        return $this->createRequest( '\Omnipay\WechatPay\Message\QueryRefundRequest', $parameters );
     }
 
     /**
