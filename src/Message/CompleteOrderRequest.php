@@ -33,7 +33,9 @@ class CompleteOrderRequest extends BaseAbstractRequest{
 
         $request_params = $this->getRequestParams();
 
-        if ( $this->validateRequestParam( 'return_code' ) && $request_params['return_code'] == 'SUCCESS' ){
+        $this->validateRequestParam( 'return_code' );
+
+        if ( $request_params['return_code'] == 'SUCCESS' ){
 
             $this->validateRequestParam(
                 'appid',
@@ -51,6 +53,11 @@ class CompleteOrderRequest extends BaseAbstractRequest{
                 'time_end'
             );
         }
+    }
+
+    public function getRequestParam( $key ){
+
+        return $this->getParameter( 'request_params' )[ $key ];
     }
 
     public function getRequestParams(){

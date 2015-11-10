@@ -7,6 +7,9 @@ use Omnipay\Common\Exception\InvalidRequestException;
 
 abstract class BaseAbstractRequest extends AbstractRequest{
 
+    use \Omnipay\WechatPay\Traits\SignatureTrait;
+    use \Omnipay\WechatPay\Traits\XMLTrait;
+
     /**
      * 验证appid，mch_id
      */
@@ -40,44 +43,6 @@ abstract class BaseAbstractRequest extends AbstractRequest{
         }
 
         return false;
-    }
-
-    /**
-     * Extract from Wechat official sdk and modify it
-     * 
-     * @param   array $target
-     * @return  string
-     */
-    protected function convertArrayToXml( $target ){
-
-        $xml = "<xml>";
-        
-        foreach ( $target as $key => $val ){
-
-            if ( is_numeric( $val ) ){
-
-                $xml.="<".$key.">".$val."</".$key.">";
-            }
-            else{
-
-                $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
-            }
-        }
-
-        $xml .= "</xml>";
-
-        return $xml; 
-    }
-
-    /**
-     * Convert xml to array 
-     *
-     * @param   string  $xml
-     * @return  array
-     */
-    protected function convertXmlToArray( $xml ){
-
-        return json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
     }
 
     /**
@@ -190,44 +155,5 @@ abstract class BaseAbstractRequest extends AbstractRequest{
         }
 
         return $nonce;
-    }
-
-    /**
-     * 根据$data参数生成签名
-     * 签名算法见: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3
-     * 
-     * @param   $data   array
-     * 
-     * @return  string
-     */
-    protected function getParamsSignature( $data, $key ){
-
-        ksort( $data );
-
-        $string = $this->getSignString( $data, $key );
-
-        return strtoupper( md5( $string ) );
-    }
-
-    /**
-     * 生成待签名字符串
-     * 
-     * @param   $data   array
-     *
-     * @return  string
-     */
-    protected function getSignString( $data, $key ){
-
-        $buff = "";
-        
-        foreach ( $data as $k => $v ){
-
-            if( $k != 'sign' && $v != "" && !is_array( $v ) ){
-
-                $buff .= $k . '=' . $v . '&';
-            }
-        }
-        
-        return $buff . 'key=' . $key;
     }
 }
