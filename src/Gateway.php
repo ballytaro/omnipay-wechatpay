@@ -9,6 +9,8 @@ use Omnipay\Common\AbstractGateway;
  */
 class Gateway extends AbstractGateway {
 
+    use \Omnipay\WechatPay\Traits\XMLTrait;
+    
     public function getName(){
 
         return $this->getTradeType();
@@ -218,7 +220,7 @@ class Gateway extends AbstractGateway {
      * @param   array               $parameters
      * @return  RequestInterface    
      */
-    public function createUnifiedOrder( array $parameters = array() ){
+    public function createUnifiedOrder( $parameters = array() ){
 
         return $this->createRequest( '\Omnipay\WechatPay\Message\UnifiedOrderRequest', $parameters );
     }
@@ -229,7 +231,12 @@ class Gateway extends AbstractGateway {
      * @param   array               $parameters
      * @return  RequestInterface    
      */
-    public function completeOrder( array $parameters = array() ){
+    public function completeOrder( $parameters = array() ){ 
+
+        if ( is_string( $parameters ) ){
+        
+            $parameters = $this->convertXmlToArray( $parameters );
+        }
 
         return $this->createRequest( '\Omnipay\WechatPay\Message\CompleteOrderRequest', $parameters );
     }
@@ -240,7 +247,7 @@ class Gateway extends AbstractGateway {
      * @param   array               $parameters
      * @return  RequestInterface    
      */
-    public function queryOrder( array $parameters = array() ){
+    public function queryOrder( $parameters = array() ){
 
         return $this->createRequest( '\Omnipay\WechatPay\Message\QueryOrderRequest', $parameters );
     }
@@ -251,7 +258,7 @@ class Gateway extends AbstractGateway {
      * @param   array               $parameters
      * @return  RequestInterface    
      */
-    public function closeOrder( array $parameters = array() ){
+    public function closeOrder( $parameters = array() ){
 
         return $this->createRequest( '\Omnipay\WechatPay\Message\CloseOrderRequest', $parameters );
     }
@@ -262,7 +269,7 @@ class Gateway extends AbstractGateway {
      * @param   array               $parameters
      * @return  RequestInterface    
      */
-    public function createRefund( array $parameters = array() ){
+    public function createRefund( $parameters = array() ){
 
         return $this->createRequest( '\Omnipay\WechatPay\Message\RefundRequest', $parameters );
     }
@@ -273,7 +280,7 @@ class Gateway extends AbstractGateway {
      * @param   array               $parameters
      * @return  RequestInterface    
      */
-    public function queryRefund( array $parameters = array() ){
+    public function queryRefund( $parameters = array() ){
 
         return $this->createRequest( '\Omnipay\WechatPay\Message\QueryRefundRequest', $parameters );
     }
@@ -284,7 +291,7 @@ class Gateway extends AbstractGateway {
      * @param   array               $parameters
      * @return  RequestInterface    
      */
-    public function downloadBill( array $parameters = array() ){
+    public function downloadBill( $parameters = array() ){
 
         return $this->createRequest( '\Omnipay\WechatPay\Message\DownloadBillRequest', $parameters );
     }

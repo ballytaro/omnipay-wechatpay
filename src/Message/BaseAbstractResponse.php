@@ -2,67 +2,31 @@
 
 namespace Omnipay\WechatPay\Message;
 
-use Omnipay\Common\Message\AbstractResponse;
+use \Omnipay\Common\Message\AbstractResponse;
 
 abstract class BaseAbstractResponse extends AbstractResponse{
 
-    /**
-     * 根据$data参数生成签名
-     * 签名算法见: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3
-     * 
-     * @param   $data   array
-     * 
-     * @return  string
-     */
-    protected function getParamsSignature( $data, $key ){
-
-        ksort( $data );
-
-        $string = $this->getSignString( $data, $key );
-
-        return strtoupper( md5( $string ) );
-    }
-
-    /**
-     * 生成待签名字符串
-     * 
-     * @param   $data   array
-     *
-     * @return  string
-     */
-    protected function getSignString( $data, $key ){
-
-        $buff = "";
-        
-        foreach ( $data as $k => $v ){
-
-            if( $k != 'sign' && $v != "" && !is_array( $v ) ){
-
-                $buff .= $k . '=' . $v . '&';
-            }
-        }
-        
-        return $buff . 'key=' . $key;
-    }
+    use \Omnipay\WechatPay\Traits\SignatureTrait;
+    use \Omnipay\WechatPay\Traits\XMLTrait;
 
     public function getParameter( $key ){
 
         return array_key_exists( $key, $this->data ) ? $this->data[$key] : null;
     }
 
-    public function isSuccessful(){
-
-        return $this->getParameter( 'return_code' ) == 'SUCCESS';
-    }
-
-    public function isSignMatch(){
+    public function isSignMatched(){
 
         return $this->getParamsSignature( $this->getData() ) == $this->getSign();
     }
 
+    public function isResponseSuccessful(){
+
+        return $this->getReturnCode() == 'SUCCESS';
+    }
+
     public function isResultSuccessful(){
 
-        return $this->isSuccessful() && $this->isSignMatch() && $this->getResultCode() == 'SUCCESS';
+        return $this->isResponseSuccessful() && $this->isSignMatch() && $this->getResultCode() == 'SUCCESS';
     }
 
     public function getReturnCode(){

@@ -4,6 +4,15 @@ namespace Omnipay\WechatPay\Message;
 
 class CompleteOrderResponse extends BaseAbstractResponse{
 
+    public function getResponseMessage(){
+        
+        $response_content = [
+            'return_code' => $this->isPaymentSuccessful() ? 'SUCCESS' : 'FAIL'
+        ];
+
+        return $this->convert
+    }
+
     public function isSubscribe(){
 
         $is_subscribe = $this->getParameter( 'is_subscribe' );
@@ -21,7 +30,7 @@ class CompleteOrderResponse extends BaseAbstractResponse{
         return $this->getParameter( 'device_info' );
     }
 
-    public function getOpenid(){
+    public function getOpenId(){
 
         return $this->getParameter( 'openid' );
     }
@@ -62,7 +71,7 @@ class CompleteOrderResponse extends BaseAbstractResponse{
     }
 
     public function getOutTradeNo(){
-
+i
         return $this->getParameter( 'out_trade_no' );
     }
 
