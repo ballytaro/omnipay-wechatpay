@@ -91,17 +91,17 @@ class QueryOrderResponse extends BaseAbstractResponse{
         return $this->getParameter( 'coupon_count' );
     }
 
-    public function getCouponBatchId( $n ){
+    public function getNthCouponBatchId( $n ){
 
         return $this->getParameter( 'coupon_batch_id'.'_'.$n );
     }
 
-    public function getCouponId( $n ){
+    public function getNthCouponId( $n ){
 
         return $this->getParameter( 'coupon_id'.'_'.$n );
     }
 
-    public function getCouponFee( $n ){
+    public function getNthCouponFee( $n ){
 
         return $this->getParameter( 'coupon_fee'.'_'.$n );
     }

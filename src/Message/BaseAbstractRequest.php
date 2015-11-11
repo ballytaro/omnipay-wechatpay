@@ -3,6 +3,7 @@
 namespace Omnipay\WechatPay\Message;
 
 use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Common\Exception\InvalidRequestException;
 
 abstract class BaseAbstractRequest extends AbstractRequest{
 
@@ -36,7 +37,7 @@ abstract class BaseAbstractRequest extends AbstractRequest{
             }
         }
 
-        return false;
+        throw new InvalidRequestException( 'Require one of parameters in '.join( ', ', $keys ) );
     }
 
     /**

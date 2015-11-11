@@ -35,14 +35,14 @@ class QueryOrderRequest extends BaseAbstractRequest{
 
             return !is_null( $value );
         });
-
-        $request_data['sign'] = $this->getParamsSignature( $request_data );
+    
+        $request_data['sign'] = $this->getParamsSignature( $request_data, $this->getKey() );
 
         return $request_data;
     }
 
     public function sendData( $data ){
-        
+          
         $result = parent::sendData( $data );
 
         return $this->response = new QueryOrderResponse( $this, $result );
@@ -95,6 +95,6 @@ class QueryOrderRequest extends BaseAbstractRequest{
 
     public function getTransactionId(){
 
-        return $this->getTransactionId( 'transaction_id' );
+        return $this->getParameter( 'transaction_id' );
     }
 }
