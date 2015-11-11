@@ -55,9 +55,24 @@ class CompleteOrderRequest extends BaseAbstractRequest{
         }
     }
 
+    public function setKey( $value ){
+
+        return $this->setParameter( 'key', $value );
+    }
+
+    public function getKey( ){
+
+        return $this->getParameter( 'key' );
+    }
+
     public function getRequestParam( $key ){
 
         return $this->getParameter( 'request_params' )[ $key ];
+    }
+
+    public function setRequestParams( $value ){
+
+        return $this->setParameter( 'request_params', $value );
     }
 
     public function getRequestParams(){
@@ -69,7 +84,7 @@ class CompleteOrderRequest extends BaseAbstractRequest{
 
         $this->validateData();
 
-        return $this->getParameters();
+        return $this->getParameter( 'request_params' );
     }
 
     public function sendData( $data ){

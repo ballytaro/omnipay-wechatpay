@@ -235,9 +235,11 @@ class Gateway extends AbstractGateway {
 
         if ( is_string( $parameters ) ){
         
-            $parameters = $this->convertXmlToArray( $parameters );
+            $parameters = [
+                'request_params' => $this->convertXmlToArray( $parameters )
+            ];
         }
-
+        
         return $this->createRequest( '\Omnipay\WechatPay\Message\CompleteOrderRequest', $parameters );
     }
 

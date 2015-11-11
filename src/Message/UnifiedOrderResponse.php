@@ -2,7 +2,7 @@
 
 namespace Omnipay\WechatPay\Message;
 
-use \Omnipay\Common\Exception\InvalidResponseException;
+use Omnipay\Common\Exception\InvalidResponseException;
 
 class UnifiedOrderResponse extends BaseAbstractResponse{
 
@@ -53,7 +53,7 @@ class UnifiedOrderResponse extends BaseAbstractResponse{
 
     public function createWebPaymentPackage(){
        
-        if ( !$this->is_result_successful ){
+        if ( !$this->isResultSuccessful() ){
             
             throw new InvalidResponseException( 'Could not create web payment package from invalid response.' ); 
         }

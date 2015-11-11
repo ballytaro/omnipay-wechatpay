@@ -8,11 +8,21 @@ abstract class BaseAbstractResponse extends AbstractResponse{
 
     use \Omnipay\WechatPay\Traits\SignatureTrait;
 
-    public function initialize(){
+    protected $is_signature_matched;
 
-        parent::initialize();
-        
-        $this->is_signature_matched = $this->getParamsSignature( $this->getData() ) == $ths->getSign();
+    protected $is_response_successful;
+
+    protected $is_result_successful;
+    
+    public function __construct( $request, $data ){
+
+        parent::__construct( $request, $data );
+
+        $this->setStates( $request ); 
+    }
+
+    protected function setStates( $request ){
+        $this->is_signature_matched = $this->getParamsSignature( $this->getData(), $request->getKey() ) == $this->getSign();
         $this->is_response_successful = $this->getReturnCode() == 'SUCCESS';
         $this->is_result_successful = $this->is_signature_matched && $this->is_response_successful && 
                                       $this->getResultCode() == 'SUCCESS';
@@ -36,6 +46,11 @@ abstract class BaseAbstractResponse extends AbstractResponse{
     public function isResultSuccessful(){
 
         return $this->is_result_successful;
+    }
+
+    public function isSuccessful(){
+
+        return $this->isResultSuccessful();
     }
 
     public function getReturnCode(){

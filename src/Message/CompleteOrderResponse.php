@@ -4,8 +4,9 @@ namespace Omnipay\WechatPay\Message;
 
 class CompleteOrderResponse extends BaseAbstractResponse{
 
-    use \Omnipay\WechatPay\Traits\XMLTrait;
 
+    use \Omnipay\WechatPay\Traits\XMLTrait;
+    
     public function getResponseText(){
         
         $response_content = [
@@ -73,7 +74,7 @@ class CompleteOrderResponse extends BaseAbstractResponse{
     }
 
     public function getOutTradeNo(){
-i
+
         return $this->getParameter( 'out_trade_no' );
     }
 
@@ -97,12 +98,12 @@ i
         return $this->getParameter( 'coupon_count' );
     }
 
-    public function getCouponId( $n ){
+    public function getNthCouponId( $n ){
 
         return $this->getParameter( 'coupon_id'.'_'.$n );
     }
 
-    public function getCouponFee( $n ){
+    public function getNthCouponFee( $n ){
 
         return $this->getParameter( 'coupon_fee'.'_'.$n );
     }
