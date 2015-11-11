@@ -16,16 +16,7 @@ class QueryOrderRequest extends BaseAbstractRequest{
          * transaction_id和out_trade_no至少需要一个，
          * 同时存在时transaction_id优先
          */
-        try{
-            if ( !$this->validate( 'transaction_id' ) ){
-
-                $this->validate( 'out_trade_no' );
-            }
-        }
-        catch( InvalidRequestException $e ){
-
-            throw new InvalidRequestException( 'Require one of parameters "transaction_id" and "out_trade_no"' );
-        }
+        $this->validateAtLeastOne( 'transaction_id', 'out_trade_no' );
     }
 
     public function getData(){
@@ -51,7 +42,7 @@ class QueryOrderRequest extends BaseAbstractRequest{
     }
 
     public function sendData( $data ){
-
+        
         $result = parent::sendData( $data );
 
         return $this->response = new QueryOrderResponse( $this, $result );
@@ -75,6 +66,16 @@ class QueryOrderRequest extends BaseAbstractRequest{
     public function getMchId( ){
 
         return $this->getParameter( 'mch_id' );
+    }
+
+    public function setKey( $value ){
+
+        return $this->setParameter( 'key', $value );
+    }
+
+    public function getKey(){
+
+        return $this->getParameter( 'key' );
     }
 
     public function setOutTradeNo( $value ){

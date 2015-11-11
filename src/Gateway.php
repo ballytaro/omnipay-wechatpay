@@ -54,6 +54,16 @@ class Gateway extends AbstractGateway {
         return $this->getParameter( 'key' );
     }
 
+    public function setTransactionId( $value ){
+
+        return $this->setParameter( 'transaction_id', $value );
+    }
+
+    public function getTransactionId(){
+
+        return $this->getParameter( 'transaction_id', $value );
+    }
+
     public function setBody( $value ){
 
         return $this->setParameter( 'body', $value );
