@@ -16,6 +16,17 @@ class QueryOrderResponse extends BaseAbstractResponse{
         return $this->getParameter( 'is_subscribe' ) == 'Y';
     }
 
+    public function isTradeSuccessful(){
+
+
+        return $this->isResultSuccessful() && $this->getTradeState() == 'SUCCESS';
+    }
+
+    public function getTradeState(){
+
+        return $this->getParameter( 'trade_state' );
+    }
+
     public function getOpenId(){
 
         return $this->getParameter( 'openid' );
@@ -39,6 +50,16 @@ class QueryOrderResponse extends BaseAbstractResponse{
     public function getAttach(){
 
         return $this->getParameter( 'attach' );
+    }
+
+    public function getTradeType(){
+
+        return $this->getParameter( 'trade_type' );
+    }
+
+    public function getBankType(){
+
+        return $this->getParameter( 'bank_type' );
     }
 
     public function getOutRefundNo(){
