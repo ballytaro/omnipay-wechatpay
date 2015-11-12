@@ -20,7 +20,7 @@ $gateway->setAppId( 'Your appid here.' );
 $gateway->setMchId( 'Your mch_id here.' );
 $gateway->setKey( 'Your key for WeChat payment here.' );
 $gateway->setTradeType( 'JSAPI' );
-$gateway->setAttach( 'test );
+$gateway->setAttach( 'test' );
 $gateway->setBody( 'test' );
 $gateway->setGoodsTag( 'test' );
 $gateway->setOutTradeNo( $out_trade_no );
@@ -29,6 +29,7 @@ $gateway->setSpbillCreateIP( Request::ip() );
 $gateway->setNotifyUrl( 'http://test.com/pay/notify' );
 
 $response = $gateway->createUnifiedOrder()->send(); // Get prepay_id, code_url etc.
+
 $package = $response->createWebPaymentPackage(); // Get payment parameters for web
 ```
 
@@ -40,7 +41,9 @@ use Omnipay\Omnipay;
 $request_content = file_get_contents('php://input');
 $gateway = Omnipay::create( 'WechatPay' );
 $gateway->setKey( 'Your key for WeChat payment here.' );
+
 $complete_request = $gateway->completeOrder( $$request_content );  // Auto convert xml string to array
+
 $complete_response = $complete_request->send();
 $complete_response->isResultSuccessful();
 $complete_response->isResponseSuccessful();
@@ -60,11 +63,14 @@ use Omnipay\Omnipay;
 
 $request_content = file_get_contents('php://input');
 $request_params = json_decode(json_encode(simplexml_load_string($request->getContent(), 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+
 $gateway = Omnipay::create( 'WechatPay' );
 $gateway->setKey( 'Your key for WeChat payment here.' );
+
 $complete_request = $gateway->completeOrder(array( 
   'request_params' => $request_params 
 ));
+
 $complete_response = $complete_request->send();
 $complete_response->isResultSuccessful();
 $complete_response->isResponseSuccessful();
@@ -116,8 +122,7 @@ $request = $gateway->queryRefund([
     'refund_id'         => '44444444'
 ]);
 
-$response = $request->send(); 
-    
+$response = $request->send();
 $response->isResultSuccessful();
 $response->isResponseSuccessful();
 $response->isSignatureMatched();
