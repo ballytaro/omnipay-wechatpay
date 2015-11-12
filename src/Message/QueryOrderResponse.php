@@ -13,13 +13,7 @@ class QueryOrderResponse extends BaseAbstractResponse{
             return null;
         }
 
-        return $this->getParameter( 'is_subscribe' ) == 'Y';
-    }
-
-    public function isTradeSuccessful(){
-
-
-        return $this->isResultSuccessful() && $this->getTradeState() == 'SUCCESS';
+        return $is_subscribe == 'Y';
     }
 
     public function getTradeState(){
@@ -39,7 +33,7 @@ class QueryOrderResponse extends BaseAbstractResponse{
 
     public function getTransactionId(){
 
-        return $this->getTransactionId( 'transaction_id' );
+        return $this->getParameter( 'transaction_id' );
     }
 
     public function getOutTradeNo(){
@@ -74,7 +68,7 @@ class QueryOrderResponse extends BaseAbstractResponse{
 
     public function getRefundChannel(){
 
-        return $this->setParameter( 'refund_channel' );
+        return $this->getParameter( 'refund_channel' );
     }
 
     public function getRefundFee(){
@@ -89,7 +83,7 @@ class QueryOrderResponse extends BaseAbstractResponse{
 
     public function getFeeType(){
 
-        return $this->getParameter();
+        return $this->getParameter( 'fee_type' );
     }
 
     public function getCashFee(){

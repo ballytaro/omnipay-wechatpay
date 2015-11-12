@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Omnipay\WechatPay\Message;
 
@@ -53,7 +53,7 @@ class QueryOrderRequest extends BaseAbstractRequest{
         return $this->setParameter( 'appid', $value );
     }
 
-    public function getAppId( ){
+    public function getAppId(){
 
         return $this->getParameter( 'appid' );
     }
@@ -63,7 +63,7 @@ class QueryOrderRequest extends BaseAbstractRequest{
         return $this->setParameter( 'mch_id', $value );
     }
 
-    public function getMchId( ){
+    public function getMchId(){
 
         return $this->getParameter( 'mch_id' );
     }

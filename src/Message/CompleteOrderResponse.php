@@ -25,7 +25,7 @@ class CompleteOrderResponse extends BaseAbstractResponse{
             return null;
         }
 
-        return $this->getParameter( 'is_subscribe' ) == 'Y';
+        return $is_subscribe == 'Y';
     }
 
     public function getDeviceInfo(){
