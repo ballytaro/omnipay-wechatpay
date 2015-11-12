@@ -49,8 +49,8 @@ class RefundRequest extends BaseAbstractRequest{
 
             return !is_null( $value );
         });
-
-        $request_data['sign'] = $this->getParamsSignature( $request_data );
+        
+        $request_data['sign'] = $this->getParamsSignature( $request_data, $this->getKey() );
 
         return $request_data;
     }
@@ -63,8 +63,8 @@ class RefundRequest extends BaseAbstractRequest{
             'ssl_key_path'  => $this->getSslKeyPath() 
         ];
 
-        $result = parent::sendData( $data );
-
+        $result = parent::sendData( $data, $curl_options );
+        
         return $this->response =  new RefundResponse( $this, $result );
     }
 
@@ -78,7 +78,7 @@ class RefundRequest extends BaseAbstractRequest{
         return $this->getParameter( 'ssl_cert_path' );
     }
 
-    public function setSslKeyPath(){
+    public function setSslKeyPath( $value ){
 
         return $this->setParameter( 'ssl_key_path', $value );
     }
@@ -108,6 +108,16 @@ class RefundRequest extends BaseAbstractRequest{
         return $this->getParameter( 'mch_id' );
     }
 
+    public function setKey( $value ){
+
+        return $this->setParameter( 'key', $value );
+    }
+
+    public function getKey(){
+
+        return $this->getParameter( 'key' );
+    }
+
     public function setOutTradeNo( $value ){
 
         return $this->setParameter( 'out_trade_no', $value );
@@ -135,7 +145,7 @@ class RefundRequest extends BaseAbstractRequest{
 
     public function getTransactionId(){
 
-        return $this->getTransactionId( 'transaction_id' );
+        return $this->getParameter( 'transaction_id' );
     }
 
     public function setTotalFee( $value ){
