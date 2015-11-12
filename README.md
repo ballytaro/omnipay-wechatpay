@@ -77,6 +77,35 @@ $complete_response->isResponseSuccessful();
 $complete_response->getResponseText();
 ```
 
+### Query order
+```php
+use Omnipay\Omnipay;
+
+$gateway = Omnipay::create( 'WechatPay' );
+$gateway->setAppId( 'Your appid here.' );
+$gateway->setMchId( 'Your mch_id here.' );
+$gateway->setKey( 'Your key for WeChat payment here.' );
+$request = $gateway->queryOrder([
+    'transaction_id'   => '1008400401201511101540025900'
+]);
+
+$response = $request->send();
+
+$response->getOpenId(),
+$response->isSubscribe(),
+$response->getTradeType(),
+$response->getBankType(),
+$response->getTotalFee(),
+$response->getFeeType(),
+$response->getTransactionId(),
+$response->getOutTradeNo(),
+$response->getAttach(),
+$response->getTimeEnd(),
+$response->getTradeState(),
+$response->getCashFee(),
+$response->getTradeStateDesc()
+```
+
 ### Refund
 ```php
 use Omnipay\Omnipay;
