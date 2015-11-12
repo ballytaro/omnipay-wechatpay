@@ -76,7 +76,7 @@ $complete_response->getResponseText();
 use Omnipay\Omnipay;
 
 $gateway = Omnipay::create( 'Your appid here.' );
-$gateway->setAppId( Config::get( 'weixin.app_id' ) );
+$gateway->setAppId( 'Your appid here.' );
 $gateway->setMchId( 'Your mch_id here.' );
 $gateway->setKey( 'Your key for WeChat payment here.' );
 
@@ -95,4 +95,39 @@ $response = $request->send();
 $response->isResponseSuccessful();
 $response->isSignatureMatched();
 $response->isResultSuccessful();
+```
+
+### Query refund
+```php
+use Omnipay\Omnipay;
+
+$gateway = Omnipay::create( 'WechatPay' );
+$gateway->setAppId( 'Your appid here.' );
+$gateway->setMchId( 'Your mch_id here.' );
+$gateway->setKey( 'Your key for WeChat payment here.' );
+
+/**
+ * One of 'transaction_id', 'out_trade_no', 'out_refund_no', 'refund_id' is required
+ */
+$request = $gateway->queryRefund([
+    'transaction_id'    => '11111111',
+    'out_trade_no'      => '22222222',
+    'out_refund_no'     => '33333333',
+    'refund_id'         => '44444444'
+]);
+
+$response = $request->send(); 
+    
+$response->isResultSuccessful();
+$response->isResponseSuccessful();
+$response->isSignatureMatched();
+$response->getTransactionId();
+$response->getOutTradeNo();
+$response->getRefundFee();
+$response->getRefundCount();
+$response->getNthOutRefundNo( N );      // 0 <= N < getRefundCount()
+$response->getNthRefundId( N );         // 0 <= N < getRefundCount()
+$response->getNthRefundFee( N );        // 0 <= N < getRefundCount()
+$response->getNthRefundStatus( N );     // 0 <= N < getRefundCount()
+$response->getNthRefundChannel( N );    // 0 <= N < getRefundCount()
 ```
