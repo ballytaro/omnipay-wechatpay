@@ -43,7 +43,7 @@ $gateway->setKey( 'Your key for WeChat payment here.' );
 $complete_request = $gateway->completeOrder( $$request_content );  // Auto convert xml string to array
 $complete_response = $complete_request->send();
 $complete_response->isResultSuccessful();
-$complete_response->isSuccessful();
+$complete_response->isResponseSuccessful();
 
 /**
  * Would get xml string followed while function 'isResultSuccessful' return Boolean true:
@@ -67,7 +67,32 @@ $complete_request = $gateway->completeOrder(array(
 ));
 $complete_response = $complete_request->send();
 $complete_response->isResultSuccessful();
-$complete_response->isSuccessful();
-
+$complete_response->isResponseSuccessful();
 $complete_response->getResponseText();
+```
+
+### Refund
+```php
+use Omnipay\Omnipay;
+
+$gateway = Omnipay::create( 'Your appid here.' );
+$gateway->setAppId( Config::get( 'weixin.app_id' ) );
+$gateway->setMchId( 'Your mch_id here.' );
+$gateway->setKey( 'Your key for WeChat payment here.' );
+
+$request = $gateway->createRefund([
+    'ssl_cert_path'     =>  storage_path() . '/cert/apiclient_cert.pem',
+    'ssl_key_path'      =>  storage_path() . '/cert/apiclient_key.pem',
+    'transaction_id'    =>  '111111111111',
+    'out_trade_no'      =>  '222222222222',
+    'out_refund_no'     =>  '333333333333',
+    'total_fee'         =>  50,
+    'refund_fee'        =>  20,
+    'op_user_id'        =>  'Your mch_id here.'
+]);
+
+$response = $request->send();
+$response->isResponseSuccessful();
+$response->isSignatureMatched();
+$response->isResultSuccessful();
 ```
