@@ -60,7 +60,7 @@ class UnifiedOrderResponse extends BaseAbstractResponse{
         
         $params = [
             'appId' => $this->getAppId(),
-            'timeStamp' => time(),
+            'timeStamp' => (string)time(),
             'nonceStr' => $this->getNonceStr(),
             'package' => 'prepay_id=' . $this->getPrepayId(),
             'signType' => 'MD5'
