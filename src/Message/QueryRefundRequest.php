@@ -39,7 +39,7 @@ class QueryRefundRequest extends BaseAbstractRequest{
             return !is_null( $value );
         });
 
-        $request_data['sign'] = $this->getParamsSignature( $request_data );
+        $request_data['sign'] = $this->getParamsSignature( $request_data, $this->getKey() );
 
         return $request_data;
     }
@@ -66,9 +66,19 @@ class QueryRefundRequest extends BaseAbstractRequest{
         return $this->setParameter( 'mch_id', $value );
     }
 
-    public function getMchId( ){
+    public function getMchId(){
 
         return $this->getParameter( 'mch_id' );
+    }
+
+    public function setKey( $value ){
+
+        return $this->setParameter( 'key', $value );
+    }
+
+    public function getKey(){
+
+        return $this->getParameter( 'key' );
     }
 
     public function setOutTradeNo( $value ){
@@ -81,14 +91,14 @@ class QueryRefundRequest extends BaseAbstractRequest{
         return $this->getParameter( 'out_trade_no' );
     }
 
-    public function getOutTradeNo(){
-
-        return $this->getParameter( 'out_trade_no' );
-    }
-
     public function setOutRefundNo( $value ){
 
         return $this->setParameter( 'out_refund_no', $value );
+    }
+
+    public function getOutRefundNo(){
+
+        return $this->getParameter( 'out_refund_no' );
     }
 
     public function setTransactionId( $value ){
@@ -98,7 +108,7 @@ class QueryRefundRequest extends BaseAbstractRequest{
 
     public function getTransactionId(){
 
-        return $this->getTransactionId( 'transaction_id' );
+        return $this->getParameter( 'transaction_id' );
     }
 
     public function setRefundId( $value ){

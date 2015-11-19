@@ -16,23 +16,16 @@ class RefundRequest extends BaseAbstractRequest{
             'out_refund_no',
             'total_fee',
             'refund_fee',
-            'op_user_id'
+            'op_user_id',
+            'ssl_cert_path',
+            'ssl_key_path'
         );
 
         /*
          * transaction_id和out_trade_no至少需要一个，
          * 同时存在时transaction_id优先
          */
-        try{
-            if ( !$this->validate( 'transaction_id' ) ){
-
-                $this->validate( 'out_trade_no' );
-            }
-        }
-        catch( InvalidRequestException $e ){
-
-            throw new InvalidRequestException( 'Require one of parameters "transaction_id" and "out_trade_no"' );
-        }
+        $this->validateAtLeastOne( 'transaction_id', 'out_trade_no' );
     }
 
     public function getData(){
@@ -42,25 +35,57 @@ class RefundRequest extends BaseAbstractRequest{
         $request_data = [
             'appid'             => $this->getAppId(),
             'mch_id'            => $this->getMchId(),
+            'nonce_str'         => $this->getNonceStr(),
             'out_trade_no'      => $this->getOutTradeNo(),
-            'nonce_str'         => $this->getNonceStr()
+            'transaction_id'    => $this->getTransactionId(),
+            'out_refund_no'     => $this->getOutRefundNo(),
+            'total_fee'         => $this->getTotalFee(),
+            'refund_fee'        => $this->getRefundFee(),
+            'refund_fee_type'   => $this->getRefundFeeType(),
+            'op_user_id'        => $this->getOpUserId()
         ];
 
         $request_data = array_filter( $request_data, function( $value ){
 
             return !is_null( $value );
         });
-
-        $request_data['sign'] = $this->getParamsSignature( $request_data );
+        
+        $request_data['sign'] = $this->getParamsSignature( $request_data, $this->getKey() );
 
         return $request_data;
     }
 
     public function sendData( $data ){
 
-        $result = parent::sendData( $data );
+        $curl_options = [
+            'cert'          => true,
+            'ssl_cert_path' => $this->getSslCertPath(),
+            'ssl_key_path'  => $this->getSslKeyPath() 
+        ];
 
+        $result = parent::sendData( $data, $curl_options );
+        
         return $this->response =  new RefundResponse( $this, $result );
+    }
+
+    public function setSslCertPath( $value ){
+        
+        return $this->setParameter( 'ssl_cert_path', $value );
+    }
+
+    public function getSslCertPath(){
+        
+        return $this->getParameter( 'ssl_cert_path' );
+    }
+
+    public function setSslKeyPath( $value ){
+
+        return $this->setParameter( 'ssl_key_path', $value );
+    }
+
+    public function getSslKeyPath(){
+
+        return $this->getParameter( 'ssl_key_path' );
     }
 
     public function setAppId( $value ){
@@ -81,6 +106,16 @@ class RefundRequest extends BaseAbstractRequest{
     public function getMchId( ){
 
         return $this->getParameter( 'mch_id' );
+    }
+
+    public function setKey( $value ){
+
+        return $this->setParameter( 'key', $value );
+    }
+
+    public function getKey(){
+
+        return $this->getParameter( 'key' );
     }
 
     public function setOutTradeNo( $value ){
@@ -110,7 +145,7 @@ class RefundRequest extends BaseAbstractRequest{
 
     public function getTransactionId(){
 
-        return $this->getTransactionId( 'transaction_id' );
+        return $this->getParameter( 'transaction_id' );
     }
 
     public function setTotalFee( $value ){

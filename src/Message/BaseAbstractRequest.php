@@ -54,17 +54,27 @@ abstract class BaseAbstractRequest extends AbstractRequest{
      * 发送请求，响应解析为数组后返回
      * 
      * @param   array $data
-     * @return  array $data
+     * @param   array $curl_options
+     * @return  array 
      */
-    public function sendData( $data ){
+    public function sendData( $data, $curl_options = array() ){
 
         // 将数组转换成xml，发送请求
-        $result = $this->postXmlCurl( $this->convertArrayToXml( $data ), $this->getInterfaceUrl() );
-
+        $result = $this->postXmlCurl( $this->convertArrayToXml( $data ), $this->getInterfaceUrl(), $curl_options );
+       
         // xml结果解析为数组
         $result = $this->convertXmlToArray( $result );
 
         return $result;
+    }
+
+    protected function getDefaultCurlOptions(){
+        
+        return [
+            'cert'      => false,
+            'proxy'     => false,
+            'seconds'   => 30
+        ];
     }
 
     /**
@@ -82,11 +92,7 @@ abstract class BaseAbstractRequest extends AbstractRequest{
         $ch = curl_init();
 
         // default options
-        $default_options = [ 
-            'cert'      => false,
-            'seconds'   => 30,
-            'proxy'     => false
-        ];
+        $default_options = $this->getDefaultCurlOptions(); 
 
         // merge options
         $options = array_merge( $default_options, $options );
@@ -107,9 +113,8 @@ abstract class BaseAbstractRequest extends AbstractRequest{
         //设置header
         curl_setopt( $ch, CURLOPT_HEADER, FALSE );
 
-        //要求结果为字符串且输出到屏幕上
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
-    
+
         if( $options['cert'] == true ){
             //设置证书
             //使用证书：cert 与 key 分别属于两个.pem文件
@@ -125,7 +130,7 @@ abstract class BaseAbstractRequest extends AbstractRequest{
 
         //运行curl
         $response = curl_exec( $ch );
-
+        
         curl_close( $ch );
 
         return $response;
