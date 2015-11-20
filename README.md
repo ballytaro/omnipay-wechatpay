@@ -23,7 +23,7 @@ $gateway->setTradeType( 'JSAPI' );
 $gateway->setAttach( 'test' );
 $gateway->setBody( 'test' );
 $gateway->setGoodsTag( 'test' );
-$gateway->setOutTradeNo( $out_trade_no );
+$gateway->setOutTradeNo( 'Unique order id in your site.' );
 $gateway->setTotalFee( 1 );
 $gateway->setSpbillCreateIP( Request::ip() );
 $gateway->setNotifyUrl( 'http://test.com/pay/notify' );
@@ -42,7 +42,7 @@ $request_content = file_get_contents('php://input');
 $gateway = Omnipay::create( 'WechatPay' );
 $gateway->setKey( 'Your key for WeChat payment here.' );
 
-$complete_request = $gateway->completeOrder( $$request_content );  // Auto convert xml string to array
+$complete_request = $gateway->completeOrder( $request_content );  // Auto convert xml string to array
 
 $complete_response = $complete_request->send();
 $complete_response->isResultSuccessful();
@@ -86,7 +86,7 @@ $gateway->setAppId( 'Your appid here.' );
 $gateway->setMchId( 'Your mch_id here.' );
 $gateway->setKey( 'Your key for WeChat payment here.' );
 $request = $gateway->queryOrder([
-    'transaction_id'   => '1008400401201511101540025900'
+    'transaction_id'   => 'Transaction id created by wechat'
 ]);
 
 $response = $request->send();
