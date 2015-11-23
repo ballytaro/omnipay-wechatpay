@@ -5,7 +5,7 @@ To install, simply add it to your composer.json file:
 ```json
 {
     "require": {
-        "omnipay/omnipay": "dev-master"
+        "ccob/omnipay-wechatpay": "dev-master"
     }
 }
 ```
