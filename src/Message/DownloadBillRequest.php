@@ -38,7 +38,7 @@ class DownloadBillRequest extends BaseAbstractRequest{
             return !is_null( $value );
         });
 
-        $request_data['sign'] = $this->getParamsSignature( $request_data );
+        $request_data['sign'] = $this->getParamsSignature( $request_data, $this->getKey() );
 
         return $request_data;
     }
@@ -54,8 +54,7 @@ class DownloadBillRequest extends BaseAbstractRequest{
 
         // 将数组转换成xml，发送请求
         $result = $this->postXmlCurl( $this->convertArrayToXml( $data ), $this->getInterfaceUrl() );
-
-        // 
+        
         libxml_use_internal_errors(true);
 
         // To xml
@@ -78,7 +77,7 @@ class DownloadBillRequest extends BaseAbstractRequest{
             ]);
         }
 
-        return $this->response;
+        return $result;
     }
 
     public function setAppId( $value ){
@@ -99,6 +98,16 @@ class DownloadBillRequest extends BaseAbstractRequest{
     public function getMchId( ){
 
         return $this->getParameter( 'mch_id' );
+    }
+
+    public function setKey( $value ){
+
+        return $this->setParameter( 'key', $value );
+    }
+
+    public function getKey(){
+        
+        return $this->getParameter( 'key' );
     }
 
     public function setDeviceInfo( $value ){
