@@ -7,13 +7,15 @@ class CompleteOrderResponse extends BaseAbstractResponse{
 
     use \Omnipay\WechatPay\Traits\XMLTrait;
     
-    public function getResponseText(){
+    public function getResponseText( $response_content = [] ){
         
-        $response_content = [
-            'return_code' => $this->isResultSuccessful() ? 'SUCCESS' : 'FAIL'
+        $default_response_content = [
+            'return_code' => $this->isSuccessful() ? 'SUCCESS' : 'FAIL'
         ];
 
-        return $this->convertArrayToXml( $response_content );
+        $result_content = array_merge( $default_response_content, $response_content );
+
+        return $this->convertArrayToXml( $result_content );
     }
 
     public function isSubscribe(){
